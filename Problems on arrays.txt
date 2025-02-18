@@ -367,9 +367,6 @@ if max > 0:
     print(max)
 else:
     print(0)
-Better:
--------
-
 
 
 optimal:
@@ -397,3 +394,151 @@ k = -5
 print(longest_subarray_with_sum_k(arr, k))
 
 ---------------------------------------------MEDIUM----------------------------------------------
+Two Sum
+--------
+Better approach:
+----------------
+nums = [2,7,11,15]
+tar=17
+dic={}
+for i in range(len(nums)):
+    sum=tar-nums[i]
+    if sum in dic:
+        print(dic[sum],i)
+    if nums[i] not in dic:
+        dic[nums[i]]=i
+
+	
+_________________________________________________________________________
+Sort an array of 0's 1's and 2's (Dutch natural algorithm)(75)
+-----------------------------------------------------
+optimal:
+--------
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        low=0
+        mid=0
+        high=len(nums)-1
+        while mid<=high:
+            if nums[mid]==0:
+                nums[low],nums[mid]=nums[mid],nums[low]
+                mid+=1
+                low+=1
+            elif nums[mid]==1:
+                mid+=1
+            else:
+                nums[mid],nums[high]=nums[high],nums[mid]
+                high-=1
+        return nums
+
+_______________________________________________________________________________
+Majority Element (>n/2 times) (169)
+-----------------------------------
+Brute Force:
+------------
+nums = [2,2,1,1,1,2,2]
+l=len(nums)//2
+dic={}
+for i in nums:
+    if i not in dic:
+        dic[i]=1
+    else:
+        dic[i]+=1
+ans=max(dic,key=dic.get)
+print(ans)
+
+
+optimal (own):
+--------
+nums = [2,2,1,1,1,2,2]
+el=0
+count=0
+for i in range(len(nums)):
+    if count==0:
+        el=nums[i]
+        count+=1
+    elif count!=0:
+        if nums[i]==el:
+            count+=1
+        else:
+            count-=1
+print(el)
+
+
+optimal(striver way):
+--------------------
+def majorityElement(arr):
+    n = len(arr)
+    cnt = 0  # Count
+    el = None
+    for i in range(n):
+        if cnt == 0:
+            cnt = 1
+            el = arr[i]
+        elif el == arr[i]:
+            cnt += 1
+        else:
+            cnt -= 1
+    cnt1 = 0
+    for i in range(n):
+        if arr[i] == el:
+            cnt1 += 1
+    if cnt1 > (n / 2):
+        return el
+    return -1
+arr = [2, 2, 1, 1, 1, 2, 2]
+ans = majorityElement(arr)
+print("The majority element is:", ans)
+
+________________________________________________________________________________________________
+Kadane's Algorithm, maximum subarray sum (53)
+
+Brute force:
+------------
+nums = [-1]
+maxsum=nums[0]
+for i in range(len(nums)):
+    for j in range(i+1,len(nums)+1):
+        if maxsum<sum(nums[i:j]):
+            maxsum=sum(nums[i:j])
+print(maxsum)
+
+optimal approach:
+-----------------
+nums = [-2,-3]
+maxlen=-9999999999
+sum=0
+for i in range(len(nums)):
+    sum=sum+nums[i]
+    if sum>maxlen:
+        maxlen=sum
+    if sum<0:
+        sum=0
+print(maxlen)
+
+_________________________________________________________________________________________________
+Print subarray with maximum subarray sum (extended version of above problem)
+
+Brute Force:
+------------
+nums=[5, 4, 3, 1, 6]
+max=0
+for i in range(len(nums)-1):
+    sum=0
+    for j in range(i+2,len(nums)+1):
+        ans=nums[i:j]
+        ans.sort()
+        sum=ans[0]+ans[1]
+        if sum>max:
+            max=sum
+print(max)
+
+optimal approach:
+-----------------
+maxlen=0
+        for i in range(len(arr)-1):
+            sum=arr[i]+arr[i+1]
+            if maxlen<sum:
+                maxlen=sum
+        return maxlen
+_________________________________________________________________________________________________
