@@ -1,0 +1,399 @@
+----------------------------------------EASY-----------------------------------------------
+Largest Element in an Array:
+_________________________________________________________________________________________________
+def largest(self, arr):
+    largest = arr[0]  
+    for num in arr:
+        if num > largest:
+            largest = num 
+return largest
+largest([1, 8, 7, 56, 90])
+	
+Second Largest Element in an Array without sorting:
+_________________________________________________________________________________________________
+def getSecondLargest(self, arr):
+        frs=arr[0]
+        sec=-1
+        for i in arr:
+            if frs<i and frs!=i:
+                sec=frs
+                frs=i
+            elif sec<i and frs!=i:
+                sec=i
+        return sec
+
+Check if the array is sorted(1752):
+_________________________________________________________________________________________________
+Input: nums = [3,4,5,1,2]
+Output: true
+Explanation: [1,2,3,4,5] is the original sorted array.
+You can rotate the array by x = 3 positions to begin on the element of value 3: [3,4,5,1,2].
+
+def check(self, nums: List[int]) -> bool:
+        ans=nums.copy()
+        ans.sort()
+        if ans==nums:
+            return True
+        j=0
+        mini="false"
+        while j<(len(nums)-1):
+            temp=nums[-1]
+            i=len(nums)-1
+            while i>=0:
+                nums[i]=nums[i-1]
+                i-=1
+            nums[0]=temp
+            j+=1
+            if nums==ans:
+                mini="true"
+                break
+        if mini=="true":
+            return True
+        return False
+
+	
+Remove duplicates from Sorted array(26):
+_________________________________________________________________________________________________
+Input: nums = [1,1,2]
+Output: 2, nums = [1,2,_]
+Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+
+def removeDuplicates(self, nums: List[int]) -> int:
+        i = 0
+        l = len(nums) - 1
+        while i < l:
+            while i < l and nums[i] == nums[i + 1]:
+                nums.pop(i + 1)
+                l -= 1  # Reduce the length of the list
+            i += 1
+        
+        return len(nums)
+
+Left Rotate an array by one place(189):
+_________________________________________________________________________________________________
+Input: nums = [1,2,3,4,5,6,7], k = 3
+Output: [5,6,7,1,2,3,4]
+Explanation:
+rotate 1 steps to the right: [7,1,2,3,4,5,6]
+rotate 2 steps to the right: [6,7,1,2,3,4,5]
+rotate 3 steps to the right: [5,6,7,1,2,3,4]
+
+better way:
+----------
+n=[1,2,3,4,5,6,7]
+k=3
+while k>0:
+    temp=n[-1]
+    l=len(n)-1
+    while l>0:
+        n[l]=n[l-1]
+        l-=1
+    n[0]=temp
+    k-=1
+print(n)
+
+optimal:
+--------
+nums=[1,2,3,4,5,6,7]
+k=5
+n=len(nums)
+k=k%n
+nums.reverse()
+nums[:k]=reversed(nums[:k])
+nums[k:]=reversed(nums[k:])
+print(nums)
+
+optimal without inbuilt function:
+---------------------------------
+nums = [1,2,3,4,5,6,7]
+k=3
+k=k%len(nums)
+l=len(nums)
+r=l-k
+temp=nums[:r]
+i=r
+j=0
+while i<len(nums):
+    nums[j]=nums[i]
+    j+=1
+    i+=1
+
+while j<l:
+    nums[j]=temp[j-k]
+    j+=1
+print(nums)
+
+	
+Move Zeros to end(283):
+_________________________________________________________________________________________________
+brute force:
+------------
+1.def moveZeroes(self, nums: List[int]) -> None:
+        cut=False
+        for i in range(len(nums)-1):
+            if nums[i]==0:
+                cut=True
+                for j in range(i,len(nums)):
+                    if nums[j]!=0:
+                        cut=False
+                        nums[i],nums[j]=nums[j],nums[i]
+                        break
+        if cut==True:
+            return nums
+
+2.nums = [45192,0,-659,-52359,-99225,-75991,0,-15155,27382,59818,0,-30645,-17025,81209,887,64648]
+c=0
+for i in range(len(nums)-1):
+    if nums[i]!=0:
+        nums[c],nums[i]=nums[i],nums[c]
+        c+=1
+print(nums)
+
+optimal:
+-------
+def moveZeroes(self, nums: List[int]) -> None:
+        j=-1
+        for i in range(len(nums)):
+            if nums[i]==0:
+                j=i
+                break
+        if j==-1:
+            return nums
+        i=j+1
+        while i<len(nums):
+            if nums[i]!=0:
+                nums[i],nums[j]=nums[j],nums[i]
+                j+=1
+            i+=1
+        return nums
+
+TC->O(x)+O(n-x)
+   =O(n)
+SC=O(1)
+
+	
+Linear Search
+_________________________________________________________________________________________________
+Given an array, arr[] sorted in ascending order and an integer k. Return true if k is present in the array, otherwise, false.
+
+Examples:
+
+Input: arr[] = [1, 2, 3, 4, 6], k = 6
+Output: true
+
+def binarySearch(arr, l, r, k):
+            if l <= r:
+                mid = (l + r) // 2
+                if arr[mid] == k:
+                    return mid
+                elif arr[mid] < k:
+                    return binarySearch(arr, mid + 1, r, k)
+                else:
+                    return binarySearch(arr, l, mid - 1, k)
+            else:
+                return -1
+        
+        result = binarySearch(arr, 0, len(arr) - 1, k)
+
+	
+Find the Union:
+_________________________________________________________________________________________________Input: a[] = [1, 2, 3, 4, 5], b[] = [1, 2, 3, 6, 7]
+Output: 1 2 3 4 5 6 7
+
+Brute Force:
+------------
+a=set(a)
+for i in b:
+    if i not in a:
+        a.add(i)
+print(list(a))
+
+optimal:
+--------
+a = [1, 2, 3, 4, 5]
+b = [1, 2, 3, 6, 7]
+union=[]
+a1=len(a)
+b1=len(b)
+i=0
+j=0
+while i<a1 and j<b1:
+    if a[i]<b[j]:
+        if len(union)==0 or a[i]!=union[-1]:
+            union.append(a[i])
+        i+=1
+    else:
+        if len(union)==0 or b[j]!=union[-1]:
+            union.append(b[j])
+        j+=1
+while i<a1:
+    if len(union)==0 or a[i]!=union[-1]:
+        union.append(a[i])
+    i+=1
+while j<b1:
+    if len(union)==0 or b[j]!=union[-1]:
+        union.append(b[j])
+    j+=1
+print(union)
+
+	
+Find missing number in an array(268):
+_________________________________________________________________________________________________
+Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+Example 1:
+Input: nums = [3,0,1]
+Output: 2
+
+Brute Force:
+------------
+nums = [9,6,4,2,3,5,7,0,1]
+m=max(nums)
+for i in range(m):
+    if i not in nums:
+        print(i)
+
+Better:
+-------
+nums = [9,6,4,2,3,5,7,0,1]
+dic=[0]*(max(nums)+1)
+for i in nums:
+    dic[i]=1
+for i in range(len(dic)):
+    if dic[i]==0:
+        print(i)
+
+Optimal:
+--------
+def missingNumber(self, nums: List[int]) -> int:
+        n = len(nums)
+        sum = (n * (n + 1)) // 2
+        s2 = 0
+        for i in nums:
+            s2 = s2 + i
+        ans = sum - s2
+        return ans
+
+XOR optimal:
+-----------
+n=len(nums)
+   	xor1 = 0
+        xor2 = 0
+        for i in range(1,n+1):
+            xor1=xor1^i
+        for j in nums:
+            xor2=xor2^j 
+        return xor1^xor2
+
+Find the number that appears once, and other numbers twice
+_________________________________________________________________________________________________
+Given a binary array nums, return the maximum number of consecutive 1's in the array.
+Example 1:
+Input: nums = [1,1,0,1,1,1]
+Output: 3
+
+brute force:
+-----------
+nums = [4,1,2,1,2]
+nums.sort()
+mini=False
+for i in range(len(nums)):
+    if i==0 or nums[i]!=nums[i-1]:
+        for j in range(i+1,len(nums)):
+            mini=True
+            if nums[i]==nums[j]:
+                mini=False
+                break
+    if mini==True:
+        print(nums[i])
+        break
+else:
+    print(nums[-1])
+
+Single Number
+___________________________________________________________________________________________________________
+
+optimal:
+--------
+nums = [4,4,3,1,2,1,2]
+dic={}
+for i in nums:
+    if i not in dic:
+        dic[i]=1
+    else:
+        dic[i]+=1
+for i in dic:
+    if dic[i]==1:
+        print(i)
+
+Longest subarray with given sum K(positives)----subarray
+_____________________________________________________________________________________________________
+
+Note: subarray means contiguous portion of an array
+
+Given an array arr[] containing integers and an integer k, your task is to find the length of the longest subarray where the sum of its elements is equal to the given value k. If there is no subarray with sum equal to k, return 0.
+
+Examples:
+Input: arr[] = [10, 5, 2, 7, 1, -10], k = 15
+Output: 6
+
+Brute Force:
+------------
+n= [-5, 8, -14, 2, 4, 12]
+k=-5
+ans=[]
+for i in range(len(n)):
+    for j in range(i+1,len(n)+1):
+        if sum(n[i:j])==k:
+            ans.append(len(n[i:j]))
+if len(ans)>0:
+    print(max(ans))
+else:
+    print(0)
+
+Brute Force:
+------------
+n = [-5, 8, -14, 2, 4, 12]
+k = -5
+max=0
+for i in range(len(n)):
+    current_sum = 0
+    for j in range(i, len(n)):
+        current_sum += n[j]
+        if current_sum == k:
+            if max<(j-i)+1:
+                max=(j-i)+1
+if max > 0:
+    print(max)
+else:
+    print(0)
+Better:
+-------
+
+
+
+optimal:
+--------
+def longest_subarray_with_sum_k(arr, k):
+    n = len(arr)
+    left = 0
+    current_sum = 0
+    max_length = 0
+
+    for right in range(n):
+        current_sum += arr[right]
+
+        while current_sum > k and left <= right:
+            current_sum -= arr[left]
+            left += 1
+
+        if current_sum == k:
+            max_length = max(max_length, right - left + 1)
+
+    return max_length
+
+arr = [-5, 8, -14, 2, 4, 12]
+k = -5
+print(longest_subarray_with_sum_k(arr, k))
+
+---------------------------------------------MEDIUM----------------------------------------------
