@@ -198,7 +198,8 @@ def binarySearch(arr, l, r, k):
 
 	
 Find the Union:
-_________________________________________________________________________________________________Input: a[] = [1, 2, 3, 4, 5], b[] = [1, 2, 3, 6, 7]
+_________________________________________________________________________________________________
+Input: a[] = [1, 2, 3, 4, 5], b[] = [1, 2, 3, 6, 7]
 Output: 1 2 3 4 5 6 7
 
 Brute Force:
@@ -326,6 +327,10 @@ for i in dic:
     if dic[i]==1:
         print(i)
 
+optional:
+-----------
+
+
 Longest subarray with given sum K(positives)----subarray
 _____________________________________________________________________________________________________
 
@@ -393,6 +398,25 @@ arr = [-5, 8, -14, 2, 4, 12]
 k = -5
 print(longest_subarray_with_sum_k(arr, k))
 
++ve and -ve
+------------
+# User function Template for python3
+class Solution:
+    def longestSubarray(self, arr, k):  
+        maxlen=0
+        dic={}
+        sum=0
+        for i in range(len(arr)):
+            sum=sum+arr[i]
+            if sum==k:
+                maxlen=max(maxlen,i+1)
+            rem=sum-k
+            if rem in dic:
+                maxlen=max(maxlen,i-dic[rem])
+            if sum not in dic:
+                dic[sum]=i
+        return maxlen
+
 ---------------------------------------------MEDIUM----------------------------------------------
 Two Sum
 --------
@@ -444,7 +468,7 @@ for i in nums:
         dic[i]=1
     else:
         dic[i]+=1
-ans=max(dic,key=dic.get)
+###############ans=max(dic,key=dic.get)
 print(ans)
 
 
@@ -542,3 +566,920 @@ maxlen=0
                 maxlen=sum
         return maxlen
 _________________________________________________________________________________________________
+
+-----------------------------------------stocks-------------------------------------------------
+121. Best Time to Buy and Sell Stock
+
+Note: If we are selling ith day we buy on the minimum price from 1st - i-1
+
+Brute force:
+-----------
+prices = [7,1,5,3,6,4]
+maxpro=0
+for i in range(len(prices)):
+    for j in range(i+1,len(prices)):
+        sum=0
+        if prices[i]<prices[j]:
+            sum=abs(prices[i]-prices[j])
+            if maxpro<sum:
+                maxpro=sum
+print(maxpro)
+
+optimal:
+--------
+nums = [7,6,4,3,1]
+profit=0
+mini=7
+for i in range(1,len(nums)):
+    if nums[i]>mini:
+        pro=abs(nums[i]-mini)
+        profit=max(profit,pro)
+    mini=min(mini,nums[i])
+print(profit)
+
+__________________________________________________________________________________________________
+2149. Rearrange Array Elements by Sign
+
+Brute Force:
+------------
+class Solution:
+    def rearrangeArray(self, nums: List[int]) -> List[int]:
+        pos=[]
+        neg=[]
+        p=0
+        n=0
+        for i in nums:
+            if i<0:
+                neg.append(i)
+            else:
+                pos.append(i)
+        for i in range(len(nums)//2):
+            nums[i*2]=pos[i]
+            nums[i*2+1]=neg[i]
+        return nums
+
+optimal approach:
+-----------------
+class Solution:
+    def rearrangeArray(self, nums: List[int]) -> List[int]:
+        ans=[0]*len(nums)
+        i=0
+        j=1
+        for r in range(len(nums)):
+            if nums[r]>0:
+                ans[i]=nums[r]
+                i+=2
+            else:
+                ans[j]=nums[r]
+                j+=2
+        return ans
+
+
+Follow up----this will only be done in brute force
+==================================================
+def RearrangebySign(A, n):
+    # Define 2 lists, one for storing positive 
+    # and other for negative elements of the array.
+    pos = []
+    neg = []
+    
+    # Segregate the array into positives and negatives.
+    for i in range(n):
+        if A[i] > 0:
+            pos.append(A[i])
+        else:
+            neg.append(A[i])
+    
+    # If positives are lesser than the negatives.
+    if len(pos) < len(neg):
+        # First, fill array alternatively till the point 
+        # where positives and negatives are equal in number.
+        for i in range(len(pos)):
+            A[2*i] = pos[i]
+            A[2*i+1] = neg[i]
+        
+        # Fill the remaining negatives at the end of the array.
+        index = len(pos)*2
+        for i in range(len(neg)-len(pos)):
+            A[index] = neg[len(pos)+i]
+            index += 1
+    
+    # If negatives are lesser than the positives.
+    else:
+        # First, fill array alternatively till the point 
+        # where positives and negatives are equal in number.
+        for i in range(len(neg)):
+            A[2*i] = pos[i]
+            A[2*i+1] = neg[i]
+        
+        # Fill the remaining positives at the end of the array.
+        index = len(neg)*2
+        for i in range(len(pos)-len(neg)):
+            A[index] = pos[len(neg)+i]
+            index += 1
+    
+    return A
+
+# Array initialization
+n = 6
+A = [1, 2, -4, -5, 3, 4]
+
+ans = RearrangebySign(A, n)
+
+for i in range(len(ans)):
+    print(ans[i], end=" ")
+_________________________________________________________________________________________________________________
+permutation:
+
+using build in function:
+------------------------
+from itertools import *
+nums=[1,2,3]
+ans=list(permutations(nums))
+print(ans)
+
+without using buildIn function:
+-------------------------------
+def permute(nums,sub=[],ls=None):
+    if ls is None:
+        ls=[]
+    if not nums:
+        ls.append(sub)
+        return ls
+    for i in range(len(nums)):
+        permute(nums[:i]+nums[i+1:],sub+[nums[i]],ls)
+    return ls
+ans=permute([1,2,3])
+ans.sort()
+print(ans)
+__________________________________________________________________________________________________________________
+Permutations(46)
+
+optimal:
+--------
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        def permutation(nums,sub,ls):
+            if not nums:
+                ls.append(sub)
+                return 
+            for i in range(len(nums)):
+                permutation(nums[:i]+nums[i+1:],sub+[nums[i]],ls)
+        ls=[]
+        permutation(nums,[],ls)
+        ls.sort()
+        return ls
+Time Complexity: O(n! * n)
+
+Space Complexity: O(n! * n)
+___________________________________________________________________________________________________________________
+31. Next Permutation
+
+Logic of this code:
+------------------
+1.longer prefix match nums[i]<nums[i+1]
+2.find break point
+3.find the element after break point which is greater than nums[i] closest to the nums[i]
+4.After find the break point sort the array
+
+optimal:
+--------
+nums=[2,1,5,4,3,0,0]
+ind=-1
+i=len(nums)-2
+while i>=0:
+    if nums[i]<nums[i+1]:
+        ind=i
+        break
+    i-=1
+if ind==-1:
+    print(nums.reverse())
+j=len(nums)-1
+while j>ind:
+    if nums[ind]<nums[j]:
+        nums[ind],nums[j]=nums[j],nums[ind]
+        break
+    j-=1
+nums[ind+1:]=reversed(nums[ind+1:])
+print(nums)
+____________________________________________________________________________________________________________________
+Leaders in an Array problem
+
+Brute Force:
+------------
+arr = [30, 10, 10, 5]
+ans=[]
+for i in range(len(arr)):
+    check=True
+    for j in range(i+1,len(arr)):
+        if arr[i]<arr[j]:
+            check=False
+            break
+    if check==True:
+        ans.append(arr[i])
+print(ans)
+
+optimal:
+--------
+i=len(arr)-1
+        ans=[]
+        maxnum=-9999999
+        while i>=0:
+            if arr[i]>maxnum or ans[-1]==arr[i]:
+                maxnum=arr[i]
+                ans.append(arr[i])
+            i-=1
+        ans.reverse()
+        return ans
+
+___________________________________________________________________________________________________________________
+Longest Consecutive Sequence in an Array
+
+Brute force:
+------------
+nums=[102,4,6,100,5,1,101,3,2,1,1]
+maxlen=0
+for i in range(len(nums)):
+    count=1
+    arr=nums[i]+1
+    j=0
+    while j<len(nums):
+        if arr==nums[j]:
+            count+=1
+            j=0
+            arr+=1
+        j+=1
+
+    maxlen=max(maxlen,count)
+print(maxlen)
+
+
+Better approach:
+------------------
+nums=[102,4,6,100,5,1,101,3,2,1,1]
+nums.sort()
+curnum=nums[0]
+count=1
+maxlen=1
+for i in range(1,len(nums)):
+    if nums[i]==curnum+1:
+        curnum=curnum+1
+        count+=1
+    elif nums[i]==curnum:
+        pass
+    else:
+        maxlen=max(maxlen,count)
+        count=1
+        curnum=nums[i]
+print(maxlen)
+
+
+optimal approach:
+-----------------
+nums=[100,4,200,1,3,2]
+nums=set(nums)
+count=0
+maxlen=0
+for i in nums:
+    if i-1 not in nums:
+        start=i
+        while start in nums:
+            count+=1
+            start+=1
+        maxlen=max(maxlen,count)
+        count=0
+    else:
+        pass
+print(maxlen)
+
+___________________________________________________________________________________________________________________________
+73. Set Matrix Zeroes
+---------------------
+My way:
+-------
+nums=[[0,1]]
+row=[]
+col=[]
+for i in range(len(nums)):
+    for j in range(len(nums[i])):
+        if nums[i][j]==0:
+            row.append(i)
+            col.append(j)
+for i in range(len(nums)):
+    for j in range(len(nums[i])):
+        if i in row:
+            nums[i][j]=0
+        elif j in col:
+            nums[i][j]=0
+print(nums)
+
+optimal:
+--------
+nums=[[1,1,1],[1,0,1],[1,1,1]]
+row=set()
+col=set()
+for i in range(len(nums)):
+    for j in range(len(nums[i])):
+        if nums[i][j]==0:
+            row.add(i)
+            col.add(j)
+for r in row:
+    for j in range(len(nums[0])):
+        nums[r][j]=0
+for c in col:
+    for j in range(len(nums)):
+        nums[j][c]=0
+print(nums)
+
+_____________________________________________________________________________________________________________________________
+48. Rotate Image
+
+using extraspace:
+-----------------
+
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [[7,4,1],[8,5,2],[9,6,3]]
+
+ls=[]
+        for i in range(len(matrix)):
+            sub=[]
+            for j in range(len(matrix[0])):
+                sub.append(matrix[j][i])
+                sub.reverse()
+            ls.append(sub)
+        return ls
+
+Optimal: (Inplace)---Diagonals not changed and remaining should have to swap
+---------
+nums=[[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
+for i in range(len(nums)):
+    for j in range(i+1,len(nums)):
+        nums[i][j],nums[j][i]=nums[j][i],nums[i][j]
+    nums[i].reverse()
+print(nums)
+______________________________________________________________________________________________________________________________
+
+54. Spiral Matrix
+------------------
+nums=[[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+ans=[]
+left=0
+right=len(nums[0])-1
+top=0
+bottom=len(nums)-1
+while left<=right and top<=bottom:
+    i=left
+    while i<=right:
+        ans.append(nums[top][i])
+        i+=1
+    top+=1
+
+    i=top
+    while i<=bottom:
+        ans.append(nums[i][right])
+        i+=1
+    right-=1
+    if top<=bottom:
+        i=right
+        while i>=left:
+            ans.append(nums[bottom][i])
+            i-=1
+        bottom-=1
+    if left<=right:
+        i=bottom
+        while i>=top:
+            ans.append(nums[i][left])
+            i-=1
+        left+=1
+print(ans)
+______________________________________________________________________________________________________________________________
+
+560. Subarray Sum Equals K
+
+Logic-we have the prefix sum which is the entire sum till a particular index and we are looking for the K so I ll just look for how many times minus k appeared and that will be the number of sub arrays that ends at this particular index.
+
+nums = [1,1,1]
+k = 2
+presum={0:1}
+count=0
+for i in range(len(nums)):
+	currentsum=currentsum+nums[i]
+	rem=currentsum-k
+	if rem in presum:
+		count=count+presum[rem]
+	presum[currentsum]=presum.get(currentsum,0)+1
+return count
+
+---------------------------------------------------------Hard-----------------------------------------------------------------
+
+Pascal Trangle:
+---------------
+
+1. Given the row and column find the element at that place:
+
+Format: nCr=n!//(r!*(n-r)!)----we can write as--->n-1 C r-1---ex----5C2---5*4/2*1
+
+code:
+-------
+def nCr(row,column):
+    res=1
+    for i in range(column):
+        res=res*(row-i)
+        res=res//(i+1)
+    return res
+r=int(input("enter the row"))
+c=int(input("enter the column"))
+print(nCr(r-1,c-1))
+
+		
+2. Print the nth row of pascal triangle
+
+Brute Force Code:
+-----------------
+row=6
+def nCr(row,column):
+    res=1
+    for i in range(column):
+        res=res*(row-i)
+        res=res//(i+1)
+    return res
+for c in range(1,row+1):
+    print(nCr(row-1,c-1),end=" ")
+
+Optimal:
+---------
+row=6
+ans=1
+print(ans,end=" ")
+for i in range(1,row):
+    ans=ans*(row-i)
+    ans=ans//i
+    print(ans,end=" ")
+
+
+3.print the pascal triangle:
+
+optimal:
+---------
+row=6
+ls=[]
+ans=1
+for r in range(1,row+1):
+    ans=1
+    sub=[]
+    sub.append(1)
+    for c in range(1,r):
+        ans=ans*(r-c)
+        ans=ans//c
+        sub.append(ans)
+    ls.append(sub)
+print(ls)
+
+____________________________________________________________________________________________________________________________________
+
+229. Majority Element II
+------------------------
+
+medium:
+-------
+l=len(nums)//3
+        ans=[]
+        dic={}
+        for i in nums:
+            if i not in dic:
+                dic[i]=1
+                if dic[i]>l and i not in ans:
+                    ans.append(i)
+            else:
+                dic[i]+=1
+                if dic[i]>l and i not in ans:
+                    ans.append(i)
+        return ans
+
+_____________________________________________________________________________________________________________________________________
+
+15. 3Sum
+----------
+
+Brute Force:
+------------
+nums = [0,0,0,0]
+triple=[]
+for i in range(len(nums)-2):
+    for j in range(i+1,len(nums)-1):
+        for k in range(j+1,len(nums)):
+            sub = []
+            sum=nums[i]+nums[j]+nums[k]
+            if sum==0:
+                sub.append(nums[i])
+                sub.append(nums[j])
+                sub.append(nums[k])
+                sub.sort()
+                if sub not in triple:
+                    triple.append(sub)
+print(triple)
+
+Better:
+--------
+formula= i+j+k
+	k=-(i+j)
+	check the k/third between the i and j
+
+triple=[]
+for i in range(len(nums)-1):
+    dic={}
+    for j in range(i+1,len(nums)):
+        k=-(nums[i]+nums[j])
+        if k in dic:
+            temp=[nums[i],nums[j],k]
+            temp.sort()
+            if temp not in triple:
+                triple.append(temp)
+        else:
+            dic[nums[j]]=None
+print(triple)
+
+Optimal:
+--------
+nums.sort()
+ls = []
+for i in range(len(nums) - 1):                                                      [1,2,3,3,5,6,7,8,9,9]
+    if i > 0 and nums[i] == nums[i - 1]:					     i j               k	
+        continue                                                                          run loop b/w
+    j = i + 1
+    k = len(nums) - 1
+    while j < k:
+        sum = nums[i] + nums[j] + nums[k]
+        if sum > 0:
+            k -= 1
+        elif sum < 0:
+            j += 1
+        else:
+            temp = [nums[i], nums[j], nums[k]]
+            ls.append(temp)
+            j += 1
+            k -= 1
+            while j < k and nums[j] == nums[j - 1]:
+                j += 1
+            while j < k and nums[k] == nums[k + 1]:
+                k -= 1
+print(ls)
+
+_______________________________________________________________________________________________________________________________________
+	
+18. 4Sum
+---------
+
+Brute force:
+------------
+we use the four nested loop----->tc will be the O(n^4)
+
+
+Better approach:
+---------------
+Intution--->nums[l] = target - (nums[i]+nums[j]+nums[k])
+
+nums = [2,2,2,2,2]
+target = 8
+ls=[]
+for i in range(len(nums)-2):
+    for j in range(i+1,len(nums)-1):
+        dic={}
+        for k in range(j+1,len(nums)):
+            sum=nums[i]+nums[j]+nums[k]
+            fourth=target-sum
+            if fourth in dic:
+                sub=[nums[i],nums[j],nums[k],fourth]
+                sub.sort()
+                if sub not in ls:
+                    ls.append(sub)
+            else:
+                dic[nums[k]]=None
+print(ls)
+
+Optimal:
+--------
+maxlen=0
+        dic={}
+        sum=0
+        for i in range(len(arr)):
+            sum=sum+arr[i]
+            if sum==0:
+                maxlen=max(maxlen,i+1)
+            rem=sum-0
+            if rem in dic:
+                maxlen=max(maxlen,i-dic[rem])
+            if sum not in dic:
+                dic[sum]=i
+        return maxlen
+______________________________________________________________________________________________________________________________
+Given an array of integers A and an integer B.
+
+Find the total number of subarrays having bitwise XOR of all elements equals to B.
+
+Input 1:
+
+ A = [4, 2, 2, 6, 4]
+ B = 6
+
+Brute Force:
+-----------
+count=0
+for i in range(len(A)):
+    for j in range(i+1,len(A)+1):
+        sub=A[i:j]
+        xor1=0
+        for k in sub:
+            xor1=xor1 ^ k
+        if xor1==B:
+            count+=1
+print(count)
+
+Better:
+-------
+A =  [4, 2, 2, 6, 4]
+B= 6
+count=0
+for i in range(len(A)):
+    xor1=0
+    for j in range(i,len(A)):
+        xor1=xor1^A[j]
+        if xor1==B:
+            count+=1
+print(count)
+
+Optimal:
+---------
+A =  [5, 6, 7, 8, 9]
+B=5
+count=0
+dic={0:1}
+xor1=0
+for i in range(len(A)):
+    xor1=xor1^A[i]
+    x=xor1^B
+    if x in dic:
+        count=count+dic[x]
+    dic[xor1] = dic.get(xor1, 0) + 1
+print(count)
+
+_________________________________________________________________________________________________________________________________________
+56. Merge Intervals
+
+Better:
+--------
+intervals=[[1, 3], [2, 4], [2, 6], [8, 9], [8, 10], [9, 11], [15, 18], [16, 17]]
+intervals.sort()
+ans=[]
+sub=intervals[0]
+i=1
+while i<len(intervals):
+    if intervals[i][0]<=sub[1]:
+        sub[1]=max(sub[1],intervals[i][1])
+        if i == len(intervals) - 1:
+            ans.append(sub)
+    else:
+        ans.append(sub)
+        sub = intervals[i]
+        if i == len(intervals) - 1:
+            ans.append(sub)
+    i+=1
+print(ans)
+
+Optimal:
+---------
+intervals.sort()
+        ans = []
+        for i in range(len(intervals)):
+            if not ans or intervals[i][0] > ans[-1][1]:
+                ans.append(intervals[i])
+            else:
+                ans[-1][1] = max(ans[-1][1], intervals[i][1])
+        return ans
+__________________________________________________________________________________________________________________________________________
+88. Merge two sorted arrays without extra space
+
+optimal:
+--------
+nums1 = [1,2,3,0,0,0]
+nums2 = [2,5,6]
+m = 3
+n = 3
+p1=m-1
+p2=n-1
+p=m+n-1
+while p1>=0 and p2>=0:
+    if nums1[p1]>nums2[p2]:
+        nums1[p]=nums1[p1]
+        p1-=1
+    else:
+        nums1[p]=nums2[p2]
+        p2-=1
+    p-=1
+while p2>=0:
+    nums1[p]=nums2[p2]
+    p2-=1
+    p-=1
+print(nums1)
+
+__________________________________________________________________________________________________________________________________________
+
+Missing And Repeating
+
+My way:
+-------
+
+nums=[1, 3, 3]
+result=[]
+n=len(nums)
+nsum=0
+sum=(n*(n+1))//2
+val=0
+dic={}
+for i in nums:
+    if i in dic:
+        dic[i]+=1
+        val=i
+        nsum=nsum+i
+    else:
+        dic[i]=1
+        nsum=nsum+i
+ans=sum-(nsum-val)
+result.append(val)
+result.append(ans)
+print(result)
+
+optimal:
+--------
+nums=[4, 3, 6, 2, 1, 1]
+n=len(nums)
+s=0
+s2=0
+sn=(n*(n+1))//2
+s2n=(n*(n+1)*(2*n+1))//6
+for i in range(len(nums)):
+    s=s+nums[i]
+    s2=s2+(nums[i]*nums[i])
+val1=s-sn
+val2=s2-s2n
+val2=val2//val1
+x=(val1+val2)//2
+y=x-val1
+print([x,y])
+
+________________________________________________________________________________________________________________________________________
+
+Count Inversions:
+-----------------
+
+Brute Force:
+-----------
+class Solution:
+    #User function Template for python3
+    #Function to count inversions in the array.
+    def inversionCount(self, arr):
+        count=0
+        for i in range(len(arr)):
+            for j in range(i+1,len(arr)):
+                if arr[i]>arr[j]:
+                    count+=1
+        return count
+
+Optimal:(mergesort())
+---------
+def mergesort(arr,count):
+            if len(arr)>1:
+                mid=len(arr)//2
+                subarr1=arr[:mid]
+                subarr2=arr[mid:]
+                mergesort(subarr1,count)
+                mergesort(subarr2,count)
+                i=j=k=0
+                while i<len(subarr1) and j<len(subarr2):
+                    if subarr1[i]<=subarr2[j]:
+                        arr[k]=subarr1[i]
+                        i+=1
+                    else:
+                        arr[k]=subarr2[j]
+                        count[0]=count[0]+(len(subarr1)-i)
+                        j+=1
+                    k+=1
+                while i<len(subarr1):
+                    arr[k]=subarr1[i]
+                    i+=1
+                    k+=1
+                while j<len(subarr2):
+                    arr[k]=subarr2[j]
+                    j+=1
+                    k+=1
+        count=[0]
+        mergesort(arr,count)
+        return count[0]
+_________________________________________________________________________________________________________________________________________
+
+Reverse Pair
+
+Brute force:
+------------
+nums = [1,3,2,3,1]
+count=0
+for i in range(len(nums)):
+    for j in range(i+1,len(nums)):
+        if nums[i]>2*nums[j]:
+            count+=1
+print(count)
+
+Optimal:
+-------
+from typing import List
+
+class Solution:
+    def reversePairs(self, nums: List[int]) -> int:
+        def merge(nums, low, mid, high):
+            temp = []
+            left = low
+            right = mid + 1
+
+            while left <= mid and right <= high:
+                if nums[left] <= nums[right]:
+                    temp.append(nums[left])
+                    left += 1
+                else:
+                    temp.append(nums[right])
+                    right += 1
+
+            while left <= mid:
+                temp.append(nums[left])
+                left += 1
+            while right <= high:
+                temp.append(nums[right])
+                right += 1
+
+            for i in range(len(temp)):
+                nums[low + i] = temp[i]  # Fix: Use correct index placement
+
+        def countPairs(nums, low, mid, high):
+            right = mid + 1
+            count = 0
+            for i in range(low, mid + 1):
+                while right <= high and nums[i] > 2 * nums[right]:
+                    right += 1
+                count += (right - (mid + 1))
+            return count
+
+        def mergeSort(nums, low, high):
+            if low >= high:
+                return 0
+            mid = (low + high) // 2
+            count = mergeSort(nums, low, mid)
+            count += mergeSort(nums, mid + 1, high)
+            count += countPairs(nums, low, mid, high)
+            merge(nums, low, mid, high)
+            return count
+
+        return mergeSort(nums, 0, len(nums) - 1)
+___________________________________________________________________________________________________________________________________________
+
+152. Maximum Product Subarray
+
+Brute Force:
+------------
+nums = [-2,0,-1]
+maxpro=-99999999
+for i in range(len(nums)):
+    for j in range(i+1,len(nums)+1):
+        sub=nums[i:j]
+        pro=sub[0]
+        for k in range(1,len(sub)):
+            pro=pro*sub[k]
+        maxpro=max(maxpro,pro)
+print(maxpro)
+
+Better:
+-------
+nums =  [-2]
+maxpro=-99999999
+for i in range(len(nums)):
+    pro = 1
+    for j in range(i,len(nums)):
+        pro=pro*nums[j]
+        maxpro=max(maxpro,pro)
+print(maxpro)
+
+Optimal:
+--------
+nums = [-2,0,-1]
+prefic=1
+sufix=1
+maxi=-9999999
+for i in range(len(nums)):
+    if prefic==0:
+        prefic=1
+    elif sufix==0:
+        sufix=1
+    prefic=prefic*nums[i]
+    sufix=sufix*nums[len(nums)-1-i]
+    maxi=max(maxi,max(prefic,sufix))
+print(maxi)
+
+
