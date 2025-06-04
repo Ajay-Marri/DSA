@@ -1,0 +1,1150 @@
+-----------------------------------------------------------------------------------1D Linkedlist--------------------------------------------------------------------------------------------
+
+Convert array to LinkedList and print the head
+-----------------------------------------------
+class node:
+    def __init__(self,data,next=None):
+        self.data=data
+        self.next=next
+def arr2ll(arr):
+    head=node(arr[0])
+    return head.data
+arr=[1,2,3,4,5]
+print(arr2ll(arr))
+______________________________________________________________________________________________________
+
+Convert to Arrary to LinkedList and print the all the elements and count of it
+-------------------------------------------------------------------------------
+class Node:
+    def __init__(self, data, next=None):
+        self.data = data
+        self.next = next
+
+def arr2ll(arr):
+    if not arr:
+        return None
+    head = Node(arr[0])
+    mover = head
+    for i in arr[1:]:
+        mover.next = Node(i)
+        mover = mover.next
+    return head
+
+def printll(head):
+    current = head
+    while current:
+        print(current.data, end="->")
+        current = current.next
+def counter(head):
+    current = head
+    count = 0
+    while current:
+        count += 1
+        current = current.next
+    return count
+def finder(head,val):
+    current = head
+    ans="not find anything like val"
+    while current:
+        if current.data==val:
+            ans="yeah i got it"
+        current = current.next
+    return ans
+arr = [1, 2, 3, 4, 5]
+print(printll(arr2ll(arr)))
+print("count:",counter(arr2ll(arr)))
+print(finder(arr2ll(arr),10))
+__________________________________________________________________________________________________________
+
+Deletion of head and tail and postion and val
+----------------------------------------------
+
+class Node:
+    def __init__(self, data, next=None):
+        self.data = data
+        self.next = next
+
+
+def arr2ll(arr):
+    if not arr:
+        return None
+    head = Node(arr[0])
+    mover = head
+    for i in arr[1:]:
+        mover.next = Node(i)
+        mover = mover.next
+    return head
+
+
+def removehead(head):
+    if head is None:
+        return None
+    return head.next
+
+def removenums(head,n):
+    if head is None:
+        return None
+    if n==head.data:
+        return head.next
+    current=head
+    prev=None
+    while current:
+        if current.data==n:
+            if prev:
+                prev.next=current.next
+            break
+        prev=current
+        current=current.next
+    return head
+
+def removekth(head,k):
+    if head is None or k<=1:
+        return head
+    if k==1:
+        return head.next
+    current=head
+    prev=None
+    count=1
+    while current:
+        if count==k:
+            if prev:
+                prev.next=current.next
+            break
+        prev=current
+        current=current.next
+        count+=1
+    return head
+
+def removeallocc(head,k):
+    while head and head.data==k:
+        head=head.next
+    current=head
+    while current and current.next!=None:
+        if current.next.data==k:
+            current.next=current.next.next
+        else:
+            current=current.next
+    return head
+
+def removetail(head):
+    if head is None or head.next is None:
+        return None
+    current = head
+    while current.next.next != None:
+        current = current.next
+    current.next = None
+    return head
+
+
+def printll(head):
+    current = head
+    while current:
+        print(current.data, end="->")
+        current = current.next
+
+
+arr = [1, 2, 2,2,3, 4, 5]
+print(printll(arr2ll(arr)))
+print(printll(removehead(arr2ll(arr))))
+print(printll(removetail(arr2ll(arr))))
+print(printll(removekth(arr2ll(arr),3)))
+print(printll(removenums(arr2ll(arr),1)))
+print(printll(removeallocc(arr2ll(arr),2)))
+
+_______________________________________________________________________________________________________________________________
+
+Insertion of head,tail, value, and postion
+------------------------------------------
+class Node:
+    def __init__(self, data, next=None):
+        self.data = data
+        self.next = next
+
+
+def arr2ll(arr):
+    if not arr:
+        return None
+    head = Node(arr[0])
+    mover = head
+    for i in arr[1:]:
+        mover.next = Node(i)
+        mover = mover.next
+    return head
+
+
+def inserthead(head, el):
+    temp = Node(el)
+    temp.next = head
+    head = temp
+    return head
+
+
+def insertkth(head, el, k):
+    if k <= 0:
+        return head
+    if head is None:
+        x = Node(el)
+        return x
+    if k == 1:
+        x = Node(el)
+        x.next = head
+        return x
+    temp = head
+    count = 1
+    while temp:
+        if count == k - 1:
+            x = Node(el)
+            x.next = temp.next
+            temp.next = x
+            break
+        temp = temp.next
+        count+=1
+    return head
+
+def insertbef(head, el, val):
+    if head is None:
+       return None
+    if head.data == val:
+        x = Node(el)
+        x.next = head
+        return x
+    temp = head
+    while temp.next!=None:
+        if temp.next.data==val:
+            x = Node(el)
+            x.next = temp.next
+            temp.next = x
+            break
+        temp = temp.next
+    return head
+
+def insertaft(head,el,val):
+    x=Node(el)
+    if head is None:
+        return None
+    if head.data==val:
+        x.next=head.next
+        head.next=x
+        return head
+    current=head
+    while current:
+        if current.data==val:
+            x.next=current.next
+            current.next=x
+            break
+        current=current.next
+    return head
+
+def inserttail(head, el):
+    t = Node(el)
+    if head is None:
+        return t
+    temp = head
+    while temp.next != None:
+        temp = temp.next
+    temp.next = t
+    return head
+
+
+def printll(head):
+    current = head
+    while current:
+        print(current.data, end="->")
+        current = current.next
+
+
+arr = [1, 2, 3, 4]
+print(printll(arr2ll(arr)))
+print(printll(inserthead(arr2ll(arr), 0)))
+print(printll(inserttail(arr2ll(arr), 5)))
+print(printll(insertkth(arr2ll(arr), 15, 2)))
+print(printll(insertbef(arr2ll(arr),15,1)))
+print(printll(insertaft(arr2ll(arr),15,1)))
+
+----------------------------------------------------------------------------------------Doubly Linkedlist----------------------------------------------------------------------------------
+Converting the array to double linkedlist
+-----------------------------------------
+
+class node:
+    def __init__(self, data, next=None, prev=None):
+        self.data = data
+        self.next = next
+        self.prev = prev
+
+
+def arr2dll(arr):
+    head = node(arr[0])
+    prev = head
+    for i in arr[1:]:
+        mover = node(i)
+        prev.next = mover
+        mover.prev = prev
+        prev = mover
+    return head
+
+
+def printdll(head):
+    current = head
+    while current:
+        print(current.data, end="->")
+        current = current.next
+
+
+def rev(head):
+    current = head
+    while current.next:
+        current = current.next
+    while current:
+        print(current.data, end="->")
+        current = current.prev
+
+
+arr = [1, 2, 3, 4, 5]
+print(printdll(arr2dll(arr)))
+print(rev(arr2dll(arr)))
+__________________________________________________________________________________________________________________________________________________________________________
+
+Deletion of head, kth element, val and tail
+--------------------------------------------
+class Node:
+    def __init__(self, data, next=None, prev=None):
+        self.data = data
+        self.next = next
+        self.prev = prev
+
+
+def arr2dll(arr):
+    head = Node(arr[0])
+    prev = head
+    for i in arr[1:]:
+        mover = Node(i)
+        prev.next = mover
+        mover.prev = prev
+        prev = mover
+    return head
+
+
+def delhead(head):
+    if head is None or head.next is None:
+        return None
+    head = head.next
+    head.prev = None
+    return head
+
+
+def delkth(head, k):
+    if head is None:
+        return None
+    current = head
+    count = 0
+    while current:
+        count += 1
+        if count == k:
+            break
+        current = current.next
+
+    if current is None:
+        return head
+
+    back = current.prev
+    forw = current.next
+    if back is None and forw is None:
+        return None
+    elif back is None:
+        head = head.next
+        head.prev = None
+    elif forw is None:
+        back.next = None
+        current.prev = None
+    else:
+        back.next = forw
+        forw.prev = back
+        current.next = None
+        current.prev = None
+    return head
+
+def delval(head,val):
+    temp=head.next
+    while temp:
+        if temp.data==val:
+            break
+        temp=temp.next
+    forw=temp.next
+    back=temp.prev
+    if forw is None:
+        back.next=None
+        temp.prev=None
+    else:
+        back.next=forw
+        forw.prev=back
+        temp.next=None
+        temp.back=None
+    return head
+
+
+def deltail(head):
+    if head is None or head.next is None:
+        return None
+    current = head
+    while current.next.next:
+        current = current.next
+    current.next.prev = None
+    current.next = None
+    return head
+
+
+def printdll(head):
+    current = head
+    while current:
+        print(current.data, end="->")
+        current = current.next
+
+
+def revdll(head):
+    current = head
+    while current.next:
+        current = current.next
+    while current:
+        print(current.data, end="->")
+        current = current.prev
+
+
+arr = [1, 2, 3, 4,5]
+print(printdll(arr2dll(arr)))
+print(revdll(arr2dll(arr)))
+print(printdll(delhead(arr2dll(arr))))
+print(printdll(deltail(arr2dll(arr))))
+print(printdll(delkth(arr2dll(arr), 5)))
+print(printdll(delval(arr2dll(arr),5)))
+____________________________________________________________________________________________________________________________________________________________
+
+Inserting the head, tail, kth element and val
+--------------------------------------------
+class Node:
+    def __init__(self, data, next=None, prev=None):
+        self.data = data
+        self.next = next
+        self.prev = prev
+
+
+def arr2dll(arr):
+    head = Node(arr[0])
+    prev = head
+    for i in arr[1:]:
+        mover = Node(i)
+        prev.next = mover
+        mover.prev = prev
+        prev = mover
+    return head
+
+
+def inserthead(head, val):
+    x = Node(val)
+    if head is None:
+        return x
+    x.next = head
+    head.prev = x
+    return x
+
+def insertval(head,val,k):
+    x=Node(val)
+    if head is None:
+        return None
+    if head.data==k:
+        x.next=head
+        head.prev=x
+        return x
+    current=head
+    while current.next:
+        if current.next.data==k:
+            break
+        current=current.next
+    x.next=current.next
+    if current.next:
+        current.next.prev=x
+    current.next=x
+    x.prev=current
+    return head
+
+def insertkth(head, val, k):
+    if head is None:
+        return None
+    current = head
+    count = 1
+    while current:
+        if count == (k - 1):
+            break
+        count += 1
+        current = current.next
+    x = Node(val)
+    x.next = current.next
+    if current.next:
+        current.next.prev = x
+    current.next = x
+    x.prev = current
+    return head
+
+
+def insertbeftail(head, val):
+    x = Node(val)
+    if head is None:
+        return x
+    current = head
+    while current.next.next:
+        current = current.next
+    x.next = current.next
+    current.next.prev = x
+    current.next = x
+    x.prev = current
+    return head
+
+
+def insertafthead(head, val):
+    x = Node(val)
+    if head is None:
+        return x
+    current = head
+    while current.next:
+        current = current.next
+    current.next = x
+    x.prev = current
+    return head
+
+
+def printdll(head):
+    current = head
+    while current:
+        print(current.data, end="->")
+        current = current.next
+
+
+def rev(head):
+    current = head
+    while current.next:
+        current = current.next
+    while current:
+        print(current.data, end="->")
+        current = current.prev
+
+
+arr = [1, 2, 3, 4, 5]
+# print(printdll(arr2dll(arr)))
+# print(rev(arr2dll(arr)))
+# print(printdll(inserthead(arr2dll(arr),15)))
+# print(printdll(insertbeftail(arr2dll(arr), 16)))
+# print(printdll(insertafthead(arr2dll(arr),7)))
+# print(printdll(insertkth(arr2dll(arr), 15, 6)))
+print(printdll(insertval(arr2dll(arr),15,8)))
+___________________________________________________________________________________________________________________________________________________________________________________
+
+------------------------------------------------------------------EASY-----------------------------------------------------------------------------------------------
+
+876. Middle of the Linked List
+------------------------------
+class Solution:
+    def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
+            if head is None:
+                return head
+            current=head
+            count=0
+            while current:
+                current=current.next
+                count+=1
+            dl=(count//2)+1
+            current=head
+            c=1
+            while current:
+                if c==dl:
+                    return current
+                current=current.next
+                c+=1
+            return None
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+206. Reverse Linked List
+------------------------
+Brute force:
+-----------
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        temp = head
+        stack = []
+        while temp is not None:
+            stack.append(temp.val)
+            temp = temp.next
+        temp = head
+        while temp is not None:
+            temp.val = stack.pop()
+            temp = temp.next
+        return head
+
+Optimal approach
+----------------
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        temp=head
+        prev=None
+        while temp:
+            front=temp.next
+            temp.next=prev
+            prev=temp
+            temp=front
+        return prev
+
+Optimal approach2:
+-----------------
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if head is None or head.next is None:
+            return head
+        new_head = self.reverseList(head.next)  
+        head.next.next = head
+        head.next = None
+        return new_head
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+141. Linked List Cycle
+----------------------
+Brute Force:
+------------
+class Solution:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        dic={}
+        temp=head
+        while temp:
+            if temp in dic:
+                return True
+            dic[temp]=1
+            temp=temp.next
+        return False
+
+Optimal approach:
+-----------------
+class Solution:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        slow=head
+        fast=head
+        while fast is not None and fast.next is not None:
+            slow=slow.next
+            fast=fast.next.next
+            if slow==fast:
+                return True
+        return False
+__________________________________________________________________________________________________________________________________________________________________________
+21. Merge Two Sorted Lists
+--------------------------
+my way:
+------
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        if not list1:
+            return list2
+        if not list2:
+            return list1
+        if list1.val<=list2.val:
+            head=list1
+            list1=list1.next
+        else:
+            head=list2
+            list2=list2.next
+        current=head
+        while list1 and list2:
+            if list1.val<=list2.val:
+                current.next=list1
+                list1=list1.next
+            else:
+                current.next=list2
+                list2=list2.next
+            current=current.next
+        while list1:
+            current.next = list1
+            list1 = list1.next
+            current = current.next
+        while list2:
+            current.next=list2
+            list2=list2.next
+            current=current.next
+        return head
+
+Optimal:
+--------
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        head=ListNode(-1)
+        current=head
+        while list1 is not None and list2 is not None:
+            if list1.val<=list2.val:
+                current.next=list1
+                list1=list1.next
+            else:
+                current.next=list2
+                list2=list2.next
+            current=current.next
+        if list1 is not None:
+            current.next=list1
+        if list2 is not None:
+            current.next=list2
+        return head.next
+
+_______________________________________________________________________________________________________________________________________________________________________________________
+
+19. Remove Nth Node From End of List
+-------------------------------------
+my way/Optional:
+---------------
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        count=0
+        current=head
+        while current:
+            current=current.next
+            count+=1
+        nth=(count-n)+1
+        if nth==1:
+            return head.next
+        current=head
+        temp=None
+        c=1
+        while current:
+            if c==nth:
+                if temp:
+                    temp.next=current.next
+                break
+            temp=current
+            current=current.next
+            c+=1
+        return head
+_________________________________________________________________________________________________________________________________________________________________________________________
+2. Add Two Numbers
+--------------------
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy=ListNode()
+        temp=dummy
+        carry=0
+        while (l1!=None or l2!=None) or carry:
+            sum=0
+            if l1 is not None:
+                sum+=l1.val
+                l1=l1.next
+            if l2 is not None:
+                sum+=l2.val
+                l2=l2.next
+            sum+=carry
+            carry=sum//10
+            node=ListNode(sum%10)
+            temp.next=node
+            temp=temp.next
+        return dummy.next
+___________________________________________________________________________________________________________________________________________________________________________________________
+160. Intersection of Two Linked Lists
+-------------------------------------
+
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        d1=headA
+        d2=headB
+        while d1!=d2:
+            if d1==None:
+                d1=headB
+            else:
+                d1=d1.next
+            if d2==None:
+                d2=headA
+            else:
+                d2=d2.next
+        return d1
+____________________________________________________________________________________________________________________________________________________________________________________________
+
+25. Reverse Nodes in k-Group
+-----------------------------
+optimal:
+--------
+class Solution:
+    def reverselist(self,head):
+        temp=head
+        prev=None
+        while temp is not None:
+            front=temp.next
+            temp.next=prev
+            prev=temp
+            temp=front
+        return prev
+    def counter(self,temp,k):
+        k-=1
+        while temp is not None and k>0:
+            k-=1
+            temp=temp.next
+        return temp
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        temp=head
+        prevlast=None
+        while temp is not None:
+            kthnode=self.counter(temp,k)
+            if kthnode is None:
+                if prevlast:
+                    prevlast.next=temp
+                break
+            nextnode=kthnode.next
+            kthnode.next=None
+            reversed_head=self.reverselist(temp)
+            if temp==head:
+                head=reversed_head
+            else:
+                prevlast.next=kthnode
+            prevlast=temp
+            temp=nextnode
+        return head
+__________________________________________________________________________________________________________________________________________________________________________________
+234. Palindrome Linked List
+----------------------------
+brute force:
+------------
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        temp=head
+        stack=[]
+        while temp:
+            stack.append(temp.val)
+            temp=temp.next
+        mover=head
+        ans=True
+        while mover:
+            if mover.val!=stack.pop():
+                return False
+            mover=mover.next
+        return ans
+
+Optimal force:
+--------------
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        if head is None or head.next is None:
+            return True
+        slow=fast=head
+        while fast and fast.next:
+            slow=slow.next
+            fast=fast.next.next
+        cur=slow
+        prev=None
+        while cur:
+            front=cur.next
+            cur.next=prev
+            prev=cur
+            cur=front
+        first=head
+        second=prev
+        while second:  
+            if first.val != second.val:
+                return False
+            first = first.next
+            second = second.next
+
+        return True
+______________________________________________________________________________________________________________________________________________________________________________________
+142. Linked List Cycle II
+-------------------------
+Brute Force:
+------------
+class Solution:
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dic={}
+        temp=head
+        ind=0
+        while temp:
+            if temp in dic:
+                return temp
+            else:
+                dic[temp]=ind
+            temp=temp.next
+            ind+=1
+        return None
+
+Optimal:
+--------
+class Solution:
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        slow=fast=head
+        while fast and fast.next is not None:
+            slow=slow.next
+            fast=fast.next.next
+            if slow==fast:
+                entry=head
+                while entry!=slow:
+                    entry=entry.next
+                    slow=slow.next
+                return entry
+        return None
+
+_________________________________________________________________________________________________________________________________________________________________________________
+
+Linkedlist with child elements:
+-------------------------------
+class Node:
+    def __init__(self, data, next=None):
+        self.data = data
+        self.next = next
+        self.child = None
+
+def printlinkedlist(head):
+    temp = head
+    while temp:
+        print(temp.data, end="->")
+        cur = temp.child
+        while cur:
+            print(cur.data,end="->")
+            cur = cur.child
+        print()
+        temp = temp.next
+
+
+head = Node(5)
+head.child = Node(14)
+
+head.next = Node(10)
+head.next.child = Node(4)
+
+head.next.next = Node(12)
+head.next.next.child = Node(20)
+head.next.next.child.child = Node(13)
+
+head.next.next.next = Node(7)
+head.next.next.next.child = Node(17)
+
+printlinkedlist(head)
+
+__________________________________________________________________________________________________________________________________________________________________________________
+Flattening of a LinkedList:(gfg)
+---------------------------
+class Node:
+    def __init__(self, x=0, nextNode=None, childNode=None):
+        self.data = x
+        self.next = nextNode
+        self.child = childNode
+def merge(list1, list2):
+    dummyNode = Node(-1)
+    res = dummyNode
+    while list1 and list2:
+        if list1.data < list2.data:
+            res.child = list1
+            res = list1
+            list1 = list1.child
+        else:
+            res.child = list2
+            res = list2
+            list2 = list2.child
+        res.next = None
+    if list1:
+        res.child = list1
+    else:
+        res.child = list2
+    if dummyNode.child:
+        dummyNode.child.next = None
+    return dummyNode.child
+
+def flattenLinkedList(head):
+    if not head or not head.next:
+        return head
+    mergedHead = flattenLinkedList(head.next)
+    head = merge(head, mergedHead)
+    return head
+
+def printLinkedList(head):
+    while head:
+        print(head.data, end=" ")
+        head = head.child
+    print()
+
+def printOriginalLinkedList(head, depth):
+    while head:
+        print(head.data, end="")
+        if head.child:
+            print(" -> ", end="")
+            printOriginalLinkedList(head.child, depth + 1)
+        if head.next:
+            print()
+            print("| " * depth, end="")
+        head = head.next
+
+head = Node(5)
+head.child = Node(14)
+head.next = Node(10)
+head.next.child = Node(4)
+head.next.next = Node(12)
+head.next.next.child = Node(20)
+head.next.next.child.child = Node(13)
+head.next.next.next = Node(7)
+head.next.next.next.child = Node(17)
+
+
+print("Original linked list:")
+printOriginalLinkedList(head, 0)
+
+
+flattened = flattenLinkedList(head)
+print("\nFlattened linked list: ", end="")
+printLinkedList(flattened)
+_______________________________________________________________________________________________________________________________________________________________________________________
+
+61. Rotate List
+---------------
+Brute force:
+------------
+class Solution:
+    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+            if not head or not head.next:
+                return head
+            while k>0:
+                temp=head
+                while temp.next.next:
+                    temp=temp.next
+                prev=temp.next
+                temp.next=None
+                prev.next=head
+                head=prev
+                k-=1
+            return head
+
+Optimal:
+--------
+class Solution:
+    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head
+        temp = head
+        c = 1
+        while temp.next:
+            c += 1
+            temp = temp.next
+        temp.next = head
+
+        k=k%c
+        counter = c - k
+        mover = head
+        pos = 1
+        while pos!=counter:
+            mover = mover.next
+            pos+=1
+        head=mover.next
+        mover.next=None
+        return head
+____________________________________________________________________________________________________________________________________________________________________________________
+138. Copy List with Random Pointer
+----------------------------------
+Brute force:
+-----------
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        temp=head
+        dic={}
+        while temp:
+            newnode=Node(temp.val)
+            dic[temp]=newnode
+            temp=temp.next
+        temp=head
+        while temp:
+            copynode=dic[temp]
+            copynode.next=dic.get(temp.next)
+            copynode.random=dic.get(temp.random)
+            temp=temp.next
+        return dic.get(head)           
+Optimal:
+--------
+Intution:
+---------
+1.Insert the new copynode b/w
+2.connect the random pointer
+3.connect the next pointer
+
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        temp=head
+        while temp:
+            nextelement=temp.next
+            newnode=Node(temp.val)
+            temp.next=newnode
+            newnode.next=nextelement
+            temp=newnode.next
+
+        temp=head
+        while temp:
+            copynode=temp.next
+            if temp.random:
+                copynode.random=temp.random.next
+            else:
+                copynode.random=None
+            temp=temp.next.next
+        
+        temp=head
+        dummy=Node(-1)
+        res=dummy
+        while temp:
+            res.next=temp.next
+            temp.next=temp.next.next
+            res=res.next
+            temp=temp.next
+        return dummy.next
+______________________________________________________________________________________________________________________________________________________________________________________
+42. Trapping Rain Water
+------------------------
+Brute force:
+------------
+height =[0,1,0,2,1,0,1,3,2,1,2,1]
+n = len(height )
+total=0
+for i in range(len(height )):
+    lmax=0
+    rmax=0
+    j=i
+    while j>=0:
+        lmax=max(lmax,height [j])
+        j-=1
+    j=i
+    while j<n:
+        rmax=max(rmax,height [j])
+        j+=1
+    total=total+min(lmax,rmax)-height [i]
+print(total)
+
+Better way:
+-----------
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        n=len(height)
+        prefix=[0]*n
+        sufix=[0]*n
+        prefix[0]=height[0]
+        for i in range(1,n):
+            prefix[i]=max(prefix[i-1],height[i])
+        sufix[n-1]=height[-1]
+        for i in range(n-2,-1,-1):
+            sufix[i]=max(sufix[i+1],height[i])
+        total=0
+        for i in range(n):
+            total=total+(min(prefix[i],sufix[i])-height[i])
+        return total
+
+Optimal:
+--------
+def trap(self, height: List[int]) -> int:
+        n=len(height)
+        l=0
+        r=n-1
+        res=0
+        leftmax=0
+        rightmax=0
+        while l<=r:
+            if height[l]<=height[r]:
+                if height[l]>=leftmax:
+                    leftmax=height[l]
+                else:
+                    res=res+(leftmax-height[l])
+                l+=1
+            else:
+                if rightmax<=height[r]:
+                    rightmax=height[r]
+                else:
+                    res=res+(rightmax-height[r])
+                r-=1
+        return res
+________________________________________________________________________________________________________________________________________________________________________________________
